@@ -129,8 +129,8 @@ int main()
     char vowels[] = {'a', 'e', 'i', 'o', 'u'};
     char consonants[] = {'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'};
     char words[50][50];
-    srand(time(NULL));
 
+    srand(time(NULL));
     printf("\t J E U        D E       M O T S\n\n");
     printf("1-Jouer a un\n");
     printf("2-Jouer a un sous une contrainte de temps\n");
@@ -141,6 +141,7 @@ int main()
     {
         printf("Votre choix = ");
         scanf("%d", &choix);
+        
     } while (choix > 3 || choix < 0);
     if (choix == 0)
     {
