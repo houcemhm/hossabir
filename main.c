@@ -144,7 +144,7 @@ int main()
         printf("\n\tau revoir, nous espérons vous voir bientôt");
         return 1;
     }
-    file = fopen("C:/Users/houssem/Desktop/hossabir/dictionnaire.txt", "r");
+    file = fopen("dictionnaire.txt", "r");
     if (file == NULL)
     {
         printf("Fichier introvable\n");
@@ -477,6 +477,6 @@ int main()
                 printf("Egalite!");
             }
         }
-    }
+    } 
     return 0;
 }
