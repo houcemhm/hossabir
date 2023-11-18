@@ -61,6 +61,8 @@ int fn_max(char list[50][50], int length)
     }
     return max;
 }
+
+
 int processWords(FILE *file, char ch[50], char truewords[50][50])
 {
     int ok, existe;
@@ -97,6 +99,7 @@ int processWords(FILE *file, char ch[50], char truewords[50][50])
             }
 
             if (existe == 0)
+
             {
                 ok = 0;
             }
@@ -144,7 +147,7 @@ int main()
         printf("\n\tau revoir, nous espérons vous voir bientôt");
         return 1;
     }
-    file = fopen("dictionnaire.txt", "r");
+    file = fopen("C:/Users/houssem/Desktop/hossabir/dictionnaire.txt", "r");
     if (file == NULL)
     {
         printf("Fichier introvable\n");
@@ -170,7 +173,12 @@ int main()
 
         int i;
         int l = processWords(file, ch, truewords);
-
+ for (int i = 0; i < l; i++)
+            {
+           
+                    printf("%s\n", truewords[i]);
+               
+            }
         int max = fn_max(truewords, l);
         i = 1;
         int k = 0;
@@ -189,22 +197,23 @@ int main()
                 if (time_spent >= t * t)
                 {
                     timepassed = 1;
+                    break;
                 }
             }
             existe = fn_existe(truewords, l, chu);
+
 
             if (existe == 1 && (strlen(chu) == max))
             {
                 if (choix == 2)
                 {
                     printf("Vous gagnez! Le mot que vous avez saisi est correct et est le plus long.\nVous l'avez trouve en seulement %f", time_spent);
+              break;
                 }
                 else
                 {
-
                     printf("Vous gagnez! Le mot que vous avez saisi est correct et est le plus long!\n");
                 }
-
                 strcpy(wordsu[k], chu);
                 k++;
             }
@@ -221,13 +230,26 @@ int main()
                     k++;
                 }
             }
+            
             else
             {
                 printf("le mot qui vous avez saisi est incorrect!\n");
             }
 
             i++;
-        } while (i <= t && ((existe == 1 && (strlen(chu) < max)) || !existe) || (choix == 2 && timepassed));
+        } while (i <= t && ((existe == 1 && (strlen(chu) < max)) || !existe) || (choix == 2 && !timepassed));
+
+if (choix == 2 && timepassed)
+{
+    
+  printf("passe !\n");
+  
+  
+}
+
+
+
+
 
         for (i = 0; i < k; i++)
         {
