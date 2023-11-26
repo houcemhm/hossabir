@@ -16,19 +16,19 @@ void inputTab(int t, char Tab[50])
 }
 void generateString(char ch[50], char Tab[50], char vowels[5], char consonants[21])
 {
-    int indexv, indexc;
+    int index;
 
     for (int i = 0; i < strlen(Tab); i++)
     {
         if (Tab[i] == 'v' || Tab[i] == 'V')
         {
-            indexv = rand() % 5;
-            strncat(ch, &vowels[indexv], 1);
+            index = rand() % 5;
+            strncat(ch, &vowels[index], 1);
         }
         else
         {
-            indexc = rand() % 21;
-            strncat(ch, &consonants[indexc], 1);
+            index = rand() % 21;
+            strncat(ch, &consonants[index], 1);
         }
     }
 }
@@ -141,7 +141,7 @@ int main()
     {
         printf("Votre choix = ");
         scanf("%d", &choix);
-        
+
     } while (choix > 3 || choix < 0);
     if (choix == 0)
     {
@@ -172,16 +172,17 @@ int main()
             printf("\t%C", toupper(ch[i]));
         }
 
-        int i;
+        
         int l = processWords(file, ch, truewords);
- for (int i = 0; i < l; i++)
+       for (int i = 0; i < l; i++)
             {
            
                     printf("%s\n", truewords[i]);
                
             }
         int max = fn_max(truewords, l);
-        i = 1;
+
+        int i = 1;
         int k = 0;
         if (choix == 2)
             begin = clock();
