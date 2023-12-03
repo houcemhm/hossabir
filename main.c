@@ -3,8 +3,10 @@
 #include <string.h>
 #include <time.h>
 #include <ctype.h>
+
 void inputTab(int t, char Tab[50])
 {
+
     for (int i = 0; i < t; i++)
     {
         do
@@ -12,11 +14,13 @@ void inputTab(int t, char Tab[50])
             printf("Caractere %d : Consonne (c/C) ou Voyelle (v/V) = ", i + 1);
             scanf(" %c", &Tab[i]);
         } while (Tab[i] != 'c' && Tab[i] != 'C' && Tab[i] != 'v' && Tab[i] != 'V');
+        printf("\n");
     }
 }
 void generateString(char ch[50], char Tab[50], char vowels[5], char consonants[21])
 {
     int index;
+  //pour vider ch
 
     for (int i = 0; i < strlen(Tab); i++)
     {
@@ -32,24 +36,25 @@ void generateString(char ch[50], char Tab[50], char vowels[5], char consonants[2
         }
     }
 }
-int fn_existe(char list[50][50], int length, char ch[50])
-{
+static int fn_existe(char list[35000][50], int length, char ch[50]) {
     int existe = 0;
     int i = 0;
 
-    while (i < length && existe == 0)
-    {
-        if (strcmp(list[i], ch) == 0)
-        {
+    while (i < length && existe == 0) {
+        if (strcmp(list[i], ch) == 0) {
             existe = 1;
         }
         i++;
     }
 
     return existe;
-}
 
-int fn_max(char list[50][50], int length)
+    }
+
+
+
+
+int fn_max(char list[35000][50], int length)
 {
     int max = 0;
     for (int i = 0; i < length; i++)
@@ -68,10 +73,11 @@ int processWords(FILE *file, char ch[50], char truewords[50][50])
     int ok, existe;
     char word[50], altch[50];
     int i, l = 0;
-
+    file = fopen("dictionnaire.txt", "r");
     while (fscanf(file, "%s", word) != EOF)
     {
-        ok = 1;
+
+        ok = 1;//
         i = 0;
         altch[0] = '\0';
         strcat(altch, ch);
@@ -119,11 +125,11 @@ int processWords(FILE *file, char ch[50], char truewords[50][50])
 }
 int main()
 {
-    clock_t begin;
-    double time_spent;
+    clock_t begin,begin_tentative ;
+    double time_spent , time_spent_tentative ;
     FILE *file;
     int choix, choix2, t, indexv, indexc, timepassed, maxs, maxs1, maxs2, num_manche, s1, s2;
-    char Tab[9], chu[50], chu1[50], chu2[50], ch[50] = "", altch[50] = "", word[50] = "", truewords[50][50], wordsu[50][50], wordsu1[50][50], wordsu2[50][50];
+    char Tab[9], chu[50], chu1[50][50], chu2[50][50], ch[50] = "", altch[50] = "", word[50] = "", truewords[50][50], wordsu[50][50], wordsu1[50][50], wordsu2[50][50];
     int scores1[50], scores2[50];
     int ok, existe, existe2;
     char vowels[] = {'a', 'e', 'i', 'o', 'u'};
@@ -136,32 +142,39 @@ int main()
     printf("2-Jouer a un sous une contrainte de temps\n");
     printf("3-Jouer a deux\n");
     printf("0-quitter\n");
+    printf("\t\t\tvotre choix =  \n");
 
     do
     {
-        printf("Votre choix = ");
+        printf("\t\t\tVotre choix = ");
         scanf("%d", &choix);
 
     } while (choix > 3 || choix < 0);
     if (choix == 0)
     {
-        printf("\n\tau revoir, nous espérons vous voir bientôt");
+        printf("\n\tau revoir, nous esperons vous voir bientot");
         return 1;
     }
-    file = fopen("C:/Users/houssem/Desktop/hossabir/dictionnaire.txt", "r");
+    file = fopen("dictionnaire.txt", "r");
     if (file == NULL)
     {
-        printf("Fichier introvable\n");
+        printf("\033[0;31mFichier introuvable\n\033[0m"); //red
+
         return 1;
     }
     if (choix == 1 || choix == 2)
     {
-        printf("Tapez la taille (7/8/9) du mot le plus long a retrouver = ");
-        scanf("%d", &t);
+        printf("\n\n");
+        printf("\033[0;34mTapez la taille (7/8/9) du mot le plus long a retrouver = \033[0m\n");
+       printf("\033[0;34mTapez la taille (7/8/9) du mot le plus long a retrouver = \033[0m"); //blue color
+       scanf("%d", &t);
+
         while (t < 7 || t > 9)
         {
-            printf("La taille que vous avez saisie est erronee!\n\n");
-            printf("Tapez la taille (7/8/9) du mot le plus long a retrouver = ");
+            printf("\033[0;31mLa taille que vous avez saisie est erronee!\n\n\033[0m"); //red color
+
+            printf("\x1b[34mTapez la taille (7/8/9) du mot le plus long a retrouver = \x1b[0m");
+
             scanf("%d", &t);
         }
         inputTab(t, Tab);
@@ -169,17 +182,17 @@ int main()
 
         for (int i = 0; i < t; i++)
         {
-            printf("\t%C", toupper(ch[i]));
+            printf("\t%C", toupper(ch[i])); //affichage de res de generateString
         }
 
-        
-        int l = processWords(file, ch, truewords);
-       for (int i = 0; i < l; i++)
+
+        int l = processWords(file, ch, truewords);//l permet de stocker les mots valides soit plus lz
+      /* for (int i = 0; i < l; i++)
             {
-           
+                    printf("\n");
                     printf("%s\n", truewords[i]);
-               
-            }
+
+            }*/
         int max = fn_max(truewords, l);
 
         int i = 1;
@@ -187,21 +200,31 @@ int main()
         if (choix == 2)
             begin = clock();
 
+
         do
-        {
-            printf("\n%d-\t", i);
+
+        { begin_tentative=clock();
+            printf("\n%d-\t", i); //
             scanf("%s", chu);
 
             if (choix == 2)
             {
                 time_spent = (double)(clock() - begin) / CLOCKS_PER_SEC;
 
-                if (time_spent >= t * t)
+          time_spent_tentative = (double)(clock() - begin_tentative ) / CLOCKS_PER_SEC;
+                if (time_spent >= t*t )
                 {
                     timepassed = 1;
-                    break;
-                }
+                    printf("vous avez perdu car vous avez depasse le temps totale permis qui est de %fs\n",time_spent);
+                 break;//break
+                } else if (time_spent_tentative>= t){
+                 printf("  vous avez depasse le temps permis pour une tentative qui est de %fs\n",time_spent_tentative);
+                 i++;
+                 continue;
             }
+            }
+
+
             existe = fn_existe(truewords, l, chu);
 
 
@@ -209,13 +232,15 @@ int main()
             {
                 if (choix == 2)
                 {
-                    printf("Vous gagnez! Le mot que vous avez saisi est correct et est le plus long.\nVous l'avez trouve en seulement %f", time_spent);
+                   printf("\x1b[32mVous gagnez! Le mot que vous avez saisi est correct et est le plus long.\nVous l'avez trouve en seulement %f\x1b[0m", time_spent);
+
               break;
                 }
                 else
                 {
-                    printf("Vous gagnez! Le mot que vous avez saisi est correct et est le plus long!\n");
-                }
+                   printf("\033[1;32mVous gagnez! Le mot que vous avez saisi est correct et est le plus long!\033[0m\n");
+}
+
                 strcpy(wordsu[k], chu);
                 k++;
             }
@@ -223,19 +248,22 @@ int main()
             {
                 if (fn_existe(wordsu, k, chu))
                 {
-                    printf("Le mot qui vous avez saisi est correct mais vous l'avez deja tape!\n");
+                    printf("\033[38;5;208mLe mot que vous avez saisi est correct mais vous l'avez déjà tape!\033[0m\n");
+
                 }
                 else
                 {
-                    printf("le mot qui vous avez saisi est correct mais n'est pas le plus long.\n");
+                    printf("\033[38;5;208mle mot que vous avez saisi est correct mais n'est pas le plus long.\033[0m\n");
+
                     strcpy(wordsu[k], chu);
                     k++;
                 }
             }
-            
+
             else
             {
-                printf("le mot qui vous avez saisi est incorrect!\n");
+                printf("\033[31mle mot que vous avez saisi est incorrect!\033[0m\n");
+
             }
 
             i++;
@@ -243,10 +271,10 @@ int main()
 
 if (choix == 2 && timepassed)
 {
-    
+
   printf("passe !\n");
-  
-  
+
+
 }
 
 
@@ -260,7 +288,7 @@ if (choix == 2 && timepassed)
 
         maxs = fn_max(wordsu, k);
 
-        printf("\tvotre score est %d .\n", maxs);
+        printf("\t\t\t tvotre score est %d .\n", maxs);
 
         for (int i = 0; i < t; i++)
         {
@@ -272,7 +300,7 @@ if (choix == 2 && timepassed)
 
         do
         {
-            printf("Votre choix = ");
+            printf("\t\t\tVotre choix = ");
             scanf("%d", &choix2);
         } while (choix2 != 1 && choix2 != 2);
 
@@ -300,32 +328,43 @@ if (choix == 2 && timepassed)
         num_manche = 1;
         while (contchoix == 'o')
         {
-            printf("\nMANCHE n  %d______________________________________________________\n\n", num_manche);
+
+           printf("\nMANCHE n  %d______________________________________________________\n\n", num_manche);
             do
             {
                 printf("Tapez la taille (nombre pair) du mot le plus long a retrouver = ");
                 scanf("%d", &t);
                 if (t <= 0)
                 {
-                    printf("La taille que vous avez saisie ne devrait pas etre negative ou paire!\n\n");
-                }
+                   printf("\033[1;31mLa taille que vous avez saisie ne devrait pas etre negative ou impaire!\n\n");
+                  printf("\033[0m"); }
                 else if (t % 2 == 1)
                 {
-                    printf("La taille que vous avez saisie devrait etre paire!\n\n");
+                   printf("\033[1;31mLa taille que vous avez saisie devrait etre paire! 😡\n\n");
+             printf("\033[0m");
                 }
             } while (t % 2 != 0 || t <= 0);
+            Tab[0]='\0';
+            ch[0]='\0';
             inputTab(t, Tab);
             generateString(ch, Tab, vowels, consonants);
             for (int i = 0; i < t; i++)
             {
                 printf("\t%C", toupper(ch[i]));
             }
+
             int l = processWords(file, ch, truewords);
+              for (int i = 0; i < l; i++)
+            {
+                    printf("\n");
+                    printf("%s\n", truewords[i]);
+
+            }
             int max = fn_max(truewords, l);
             int i = 0;
             int k1 = 0;
             int k2 = 0;
-
+            int rep;
             do
             {
                 if (i % 2 == 0)
@@ -336,31 +375,40 @@ if (choix == 2 && timepassed)
 
                     if (existe == 1 && (strlen(chu1) == max))
                     {
-                        printf("Vous gagnez! Le mot que vous avez saisi est correct et est le plus long!\n");
+                        printf("\033[1;32mVous gagnez! Le mot que vous avez saisi est correct et est le plus long! 😊\n");
+                       printf("\033[0m");
                         strcpy(wordsu1[k1], chu1);
                         k1++;
+                        break ;
                     }
                     else if (existe == 1)
                     {
                         if (fn_existe(wordsu1, k1, chu1))
                         {
-                            printf("Le mot qui vous avez saisi est correct mais vous l'avez deja tape!\n");
+
+                            printf("\033[1;33mLe mot que vous avez saisi est correct mais vous l'avez deja tape!\n");
+                      printf("\033[0m");
                         }
                         else if (fn_existe(wordsu2, k2, chu1))
                         {
-                            printf("Le mot gui vous avez saisi a deja ete introduitpar j2!\n");
-                        }
+                            printf("\033[38;5;208mLe mot que vous avez saisi a déjà été introduit par j2!\n");
+                        printf("\033[0m");
+                          }
                         else
                         {
-                            printf("le mot qui vous avez saisi est correct mais n'est pas le plus long.\n");
+                            printf("\033[38;5;208mle mot que vous avez saisi est correct mais n'est pas le plus long.\n");
+                           printf("\033[0m");
                             strcpy(wordsu1[k1], chu1);
                             k1++;
                         }
+
                     }
                     else
                     {
-                        printf("le mot qui vous avez saisi est incorrect!\n");
+                       printf("\033[1;31mle mot que vous avez saisi est incorrect!\n");
+                   printf("\033[0m");
                     }
+                    rep=((existe == 1 && (strlen(chu1) < max)) || !existe);
                 }
                 else
                 {
@@ -370,35 +418,43 @@ if (choix == 2 && timepassed)
 
                     if (existe == 1 && (strlen(chu2) == max))
                     {
-                        printf("Vous gagnez! Le mot que vous avez saisi est correct et est le plus long!\n");
+                        printf("\033[1;32mVous gagnez! Le mot que vous avez saisi est correct et est le plus long! 😊\n");
+                 printf("\033[0m");
                         strcpy(wordsu2[k2], chu2);
                         k2++;
+                        break;
                     }
                     else if (existe == 1)
                     {
                         if (fn_existe(wordsu2, k2, chu2))
                         {
-                            printf("Le mot qui vous avez saisi est correct mais vous l'avez deja tape!\n");
+                           printf("\033[38;5;208mLe mot que vous avez saisi est correct mais vous l'avez deja tape!\n");
+                       printf("\033[0m");
                         }
                         else if (fn_existe(wordsu1, k1, chu2))
                         {
-                            printf("Le mot qui vous avez saisi a deja ete introduitpar j1!\n");
+                             printf("\033[38;5;208mLe mot que vous avez saisi a déjà été introduit par j1!\n");
+                       printf("\033[0m");
+
                         }
                         else
                         {
-                            printf("le mot qui vous avez saisi est correct mais n'est pas le plus long.\n");
+                            printf("\033[38;5;208mle mot que vous avez saisi est correct mais n'est pas le plus long.\n");
+                       printf("\033[0m");
                             strcpy(wordsu2[k2], chu2);
                             k2++;
                         }
                     }
                     else
                     {
-                        printf("le mot qui vous avez saisi est incorrect!\n");
+                        printf("\033[1;31mle mot que vous avez saisi est incorrect!\n");
+                   printf("\033[0m");
                     }
+                     rep=((existe == 1 && (strlen(chu2) < max)) || !existe);
                 }
 
                 i++;
-            } while (i < t && ((existe == 1 && (strlen(chu) < max)) || !existe) || (choix == 2 && timepassed));
+            } while (i < t && rep);
 
             printf("\nJ1_\n");
 
@@ -501,6 +557,6 @@ if (choix == 2 && timepassed)
                 printf("Egalite!");
             }
         }
-    } 
+    }
     return 0;
 }
