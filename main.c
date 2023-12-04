@@ -539,10 +539,10 @@ if (choix == 2 && timepassed)
             {
                 s1 += scores1[i - 1];
                 s2 += scores2[i - 1];
-                printf("Score Manche %d\t%d\t%d", i, scores1[i - 1], scores2[i - 1]);
+                printf("Score Manche %d\t\t%d\t%d", i, scores1[i - 1], scores2[i - 1]);
                 printf("\n-----------------------------------------------------------\n");
             }
-            printf("Score Final \t%d\t%d", i, s1, s2);
+            printf("Score Final\t\t%d\t%d", s1, s2);
             printf("\n-----------------------------------------------------------\n");
             if (s1 > s2)
             {
